@@ -107,6 +107,11 @@ a.tile .go{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600
 .hero-band .meta-line{margin-top:22px;font-size:13px;color:rgba(255,255,255,.7);}
 .hero-band .meta-line strong{color:#fff;font-weight:600;}
 .hero-band .meta-line span+span::before{content:"·";margin:0 10px;color:rgba(255,255,255,.4);}
+.brow{display:grid;grid-template-columns:64px 1fr 72px;gap:10px;align-items:center;margin:12px 0;font-size:13.5px;color:var(--ink-mid);}
+.btrack{background:var(--g50);border-radius:6px;height:24px;overflow:hidden;}
+.bfill{height:100%;border-radius:6px;background:var(--g600);}
+.bfill.neg{background:var(--neg);}
+.bval{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;text-align:right;}
 </style>
 </head>
 <body>
@@ -122,8 +127,8 @@ a.tile .go{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600
 <header class="hero-band">
   <div class="eyebrow">EACHRights · OXFAM · Kenya</div>
   <h1>Education Budget Tracker</h1>
-  <p>Kenya's education budget rises 11.6% to KSh 784.5 billion in FY 2026/27. This tracker follows the national and Kilifi County allocations line by line, with the source of every figure.</p>
-  <div class="meta-line"><span>Budget years <strong>FY 2025/26 and 2026/27</strong></span><span>Coverage <strong>National and Kilifi County</strong></span><span>Last updated <strong>2 November 2026</strong></span></div>
+  <p>Kenya's education budget rises 11.6% to KSh 784.5 billion in FY 2026/27. This tracker follows the national and Kilifi County allocations line by line, and how much of the 2025/26 budget was released and spent, with the source of every figure.</p>
+  <div class="meta-line"><span>Budget years <strong>FY 2025/26 and 2026/27</strong></span><span>Coverage <strong>National and Kilifi County</strong></span><span>Last updated <strong>26 November 2026</strong></span></div>
 </header>
 
 <div class="kpis" id="kpis"></div>
@@ -134,9 +139,9 @@ a.tile .go{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600
     <h2>What This Tracker Shows</h2>
     <span class="meta">OXFAM-funded advocacy project</span>
   </div>
-  <p class="lede">This tracker supports budget advocacy under the project <em>"Taking on the Legal and Policy Advocacy Challenge: Promoting Synergies Among EDUCATION Social Movements in Kenya."</em> It compares National Treasury allocations for FY 2025/26 and FY 2026/27, the basic education sub-programmes that reach schools and learners, and the Kilifi County education lines. Teachers' pay takes more than half of the total, while some lines that reach learners directly stay flat or fall.</p>
+  <p class="lede">This tracker supports budget advocacy under the project <em>"Taking on the Legal and Policy Advocacy Challenge: Promoting Synergies Among EDUCATION Social Movements in Kenya."</em> It compares National Treasury allocations for FY 2025/26 and FY 2026/27, the basic education sub-programmes that reach schools and learners, and the Kilifi County education lines. It also checks the 2025/26 allocations against funds released and spent. Teachers' pay takes more than half of the total, while some lines that reach learners directly stay flat or fall.</p>
 
-  <div class="two-col" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));">
+  <div class="two-col" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
     <a class="chart tile" href="national.html">
       <div class="chart-title">National budget lines</div>
       <div class="chart-sub">Every national line, FY 2025/26 against FY 2026/27.</div>
@@ -149,10 +154,16 @@ a.tile .go{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600
       <div class="tile-fig" id="tile-basic"></div>
       <span class="go">View sub-programmes →</span>
     </a>
+    <a class="chart tile" href="#spending">
+      <div class="chart-title">Releases and spending</div>
+      <div class="chart-sub">How much of the 2025/26 budget reached the sector.</div>
+      <div class="tile-fig" id="tile-abs"></div>
+      <span class="go">See the figures →</span>
+    </a>
     <a class="chart tile" href="county.html">
       <div class="chart-title">Kilifi County</div>
-      <div class="chart-sub">County education lines from the programme based budget.</div>
-      <div class="tile-fig">KSh 500<small>m ward scholarships, 2025/26</small></div>
+      <div class="chart-sub">County education lines from the budget estimates.</div>
+      <div class="tile-fig">KSh 1,598.8<small>m, early childhood education division, proposed 2026/27</small></div>
       <span class="go">View Kilifi County →</span>
     </a>
   </div>
@@ -172,6 +183,28 @@ a.tile .go{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600
   <div class="callout"><strong>Where the cuts fall.</strong> KPEEL is the largest national line cut, from KSh 13.3 billion to KSh 7.1 billion (−46.6%). In the basic education brief, school health, nutrition and meals falls 38.8%.</div>
 </section>
 
+<!-- SPENDING -->
+<section class="section section-white" id="spending">
+  <div class="section-hd">
+    <h2>Releases and Spending in FY 2025/26</h2>
+    <span class="meta">Controller of Budget and National Treasury reports</span>
+  </div>
+  <div class="two-col">
+    <div class="chart">
+      <div class="chart-title">Budget absorption, whole education sector</div>
+      <div class="chart-sub">Share of the budget spent, by financial year.</div>
+      <div id="abs-bars"></div>
+    </div>
+    <div class="chart">
+      <div class="chart-title">Pending bills due to lack of exchequer</div>
+      <div class="chart-sub">KSh billion, education sector.</div>
+      <div id="bill-bars"></div>
+    </div>
+  </div>
+  <p class="src">Sources: National Treasury, Education Sector Report, MTEF 2027/28 to 2029/30 (September 2026), Executive Summary p.6; Controller of Budget, National Government Budget Implementation Review Report, first nine months FY 2025/26, Table 2.3 p.6. By 31 March 2026 the sector had received KSh 485.6 billion of its KSh 624.7 billion net estimate (77.7%), against a 75% pro-rata benchmark.</p>
+  <div class="callout"><strong>Absorption is falling.</strong> The Treasury report links the drop in 2025/26 to inadequate funding and delayed exchequer releases. Pending bills rose by KSh 15.1 billion in a year.</div>
+</section>
+
 <!-- NOTES + SOURCES -->
 <section class="section section-gold" id="notes">
   <div class="section-hd"><h2>Data Notes and Sources</h2><span class="meta">Where sources differ, these notes say which figure is used</span></div>
@@ -180,7 +213,9 @@ a.tile .go{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600
     <li>FY 2026/27 figures come from the National Treasury Budget Statement of 11 June 2026. FY 2025/26 figures come from the Parliament of Kenya report on the 2025 budget speech, with Capital FM where the report is silent.</li>
     <li>TSC 2025/26 is KSh 387.2 billion in the Treasury speech; the committee report gives KSh 387.7 billion. The 2025/26 intern teacher figure (KSh 7.2 billion) sits inside the TSC allocation, while 2026/27 lists KSh 8.2 billion separately, so the two years may not be like for like.</li>
     <li>Science, Innovation and Research is KSh 993 million in the 2025/26 speech and KSh 943 million in the committee report.</li>
-    <li>Kilifi ward scholarships: the draft estimates also show a KSh 400 million development line for 2025/26 that is not included, because it is unclear whether it adds to the KSh 500 million recurrent line.</li>
+    <li>Higher Education 2025/26 is not compared on this page. The workbook's 56.3 billion is wrong; the Controller of Budget gross estimate is KSh 143.7 billion (Table 2.10, p.17), close to the committee figure of KSh 144.7 billion.</li>
+    <li>Spending figures are on different bases and are not added together. The Treasury absorption rate is 79.6% for 2025/26, while StatsKenya reports KSh 745.4 billion spent against KSh 703.1 billion approved, which includes supplementary budgets and institutions' own income. Expenditure by vote is from Mzalendo and StatsKenya and has not been checked against the Controller of Budget annexes.</li>
+    <li>Kilifi ward scholarships: the proposed 2026/27 estimates give KSh 400 million. The 2025/26 figure is unresolved (the sheet holds both 142.84 and 500 million), so no change is shown. The proposed 2026/27 education division total is KSh 1,598.8 million against KSh 1,549.4 million for 2025/26, whose scope is still to be confirmed.</li>
   </ol>
 
   <h3 class="panel-title">Sources</h3>
@@ -189,10 +224,13 @@ a.tile .go{display:inline-block;margin-top:14px;font-size:13.5px;font-weight:600
     <li><span class="sn">2</span><span class="ttl">Parliament of Kenya, Budget Day report</span><span class="tag off">Official</span><span class="d">13 June 2025.</span></li>
     <li><span class="sn">3</span><span class="ttl">Kenya Basic Education Sub-Sector Budget Brief FY2026/27</span><span class="tag off">Official</span><span class="d">Pages 6 to 7.</span></li>
     <li><span class="sn">4</span><span class="ttl">Kilifi County Programme Based Budget FY 2025/26 and abridged budget estimates FY 2026/27</span><span class="tag off">Official</span></li>
-    <li><span class="sn">5</span><span class="ttl">Capital FM</span><span class="tag news">News</span><span class="d">12 June 2025 and 11 June 2026.</span></li>
-    <li><span class="sn">6</span><span class="ttl">The Star and The Standard</span><span class="tag news">News</span><span class="d">11 June 2026.</span></li>
-    <li><span class="sn">7</span><span class="ttl">Daily Nation</span><span class="tag news">News</span><span class="d">27 May 2025.</span></li>
-    <li><span class="sn">8</span><span class="ttl">Jumuiya News</span><span class="tag news">News</span><span class="d">22 September 2026.</span></li>
+    <li><span class="sn">5</span><span class="ttl">Controller of Budget, National Government Budget Implementation Review Report, first nine months FY 2025/26</span><span class="tag off">Official</span><span class="d">May 2026. Tables 2.3 to 2.10, pages 6 to 19.</span></li>
+    <li><span class="sn">6</span><span class="ttl">National Treasury, Education Sector Report, MTEF 2027/28 to 2029/30</span><span class="tag off">Official</span><span class="d">September 2026. Executive Summary, p.6.</span></li>
+    <li><span class="sn">7</span><span class="ttl">StatsKenya and Mzalendo Public Finance</span><span class="tag news">Secondary</span><span class="d">Expenditure by vote, FY 2025/26 (StatsKenya updated October 2026).</span></li>
+    <li><span class="sn">8</span><span class="ttl">Capital FM</span><span class="tag news">News</span><span class="d">12 June 2025 and 11 June 2026.</span></li>
+    <li><span class="sn">9</span><span class="ttl">The Star and The Standard</span><span class="tag news">News</span><span class="d">11 June 2026.</span></li>
+    <li><span class="sn">10</span><span class="ttl">Daily Nation</span><span class="tag news">News</span><span class="d">27 May 2025.</span></li>
+    <li><span class="sn">11</span><span class="ttl">Jumuiya News</span><span class="tag news">News</span><span class="d">22 September 2026.</span></li>
   </ul>
 </section>
 
@@ -226,6 +264,14 @@ const TOTAL = {a:702.7,b:784.5};
 const chg = TOTAL.b-TOTAL.a;
 const sumSplit = SPLIT.reduce((s,x)=>s+x.v,0);
 
+// Treasury Education Sector Report (Sept 2026), Executive Summary p.6
+const ABS = [['2023/24',97.6],['2024/25',90.9],['2025/26',79.6]];
+const BILLS = [['2023/24',65.64],['2024/25',70.14],['2025/26',85.23]];
+const bars = (id,rows,max,fmt) => document.getElementById(id).innerHTML = rows.map((r,i)=>
+  `<div class="brow"><span>${esc(r[0])}</span><div class="btrack"><div class="bfill${i===rows.length-1?' neg':''}" style="width:${r[1]/max*100}%"></div></div><span class="bval">${fmt(r[1])}</span></div>`).join('');
+bars('abs-bars',ABS,100,v=>f1(v)+'%');
+bars('bill-bars',BILLS,100,v=>f1(v));
+
 document.getElementById('split-bar').innerHTML = SPLIT.map(x =>
   `<div style="width:${x.v/sumSplit*100}%;background:${x.c}" title="${esc(x.n)}: KSh ${f1(x.v)} bn">${x.v>40?Math.round(x.v/sumSplit*100)+'%':''}</div>`).join('');
 document.getElementById('split-key').innerHTML = SPLIT.map(x =>
@@ -233,6 +279,7 @@ document.getElementById('split-key').innerHTML = SPLIT.map(x =>
 
 document.getElementById('tile-total').innerHTML = `KSh ${f1(TOTAL.b)}<small>bn, FY 2026/27</small>`;
 document.getElementById('tile-basic').innerHTML = `KSh ${f1(SPLIT[2].v)}<small>bn, FY 2026/27</small>`;
+document.getElementById('tile-abs').innerHTML = `${f1(ABS[2][1])}%<small>absorbed, FY 2025/26</small>`;
 
 // [value, unit, label, class]
 const kpiShare = (SPLIT[0].v/sumSplit*100).toFixed(1);
@@ -240,7 +287,8 @@ document.getElementById('kpis').innerHTML = [
   [f1(TOTAL.b),'KSh bn','Total education budget, FY 2026/27',''],
   ['+'+f1(chg),'KSh bn',`Up ${(chg/TOTAL.a*100).toFixed(1)}% on FY 2025/26 (${f1(TOTAL.a)} bn)`,'up'],
   [kpiShare+'%','','Share going to the Teachers Service Commission',''],
-  ['−6.2','KSh bn','Largest line cut: KPEEL (13.3 to 7.1 bn, −46.6%)','down']
+  ['−6.2','KSh bn','Largest line cut: KPEEL (13.3 to 7.1 bn, −46.6%)','down'],
+  [f1(ABS[2][1])+'%','','Budget absorbed in FY 2025/26, down from '+f1(ABS[1][1])+'% a year earlier','down']
 ].map(k=>`<div class="kpi"><div class="kpi-v${k[3]?' '+k[3]:''}">${esc(k[0])}${k[1]?`<small>${k[1]}</small>`:''}</div><div class="kpi-l">${esc(k[2])}</div></div>`).join('');
 </script>
 </body>

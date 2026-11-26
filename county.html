@@ -18,7 +18,7 @@
 <div class="hero-band">
   <div class="eyebrow">EACHRights · OXFAM · Kenya</div>
   <h1>Kilifi County Education Budget</h1>
-  <p>County education lines for FY 2025/26 compared with the proposed FY 2026/27 estimates, and Kilifi's wider financial position.</p>
+  <p>County education lines for FY 2025/26 compared with the proposed FY 2026/27 estimates, what was released and spent, and Kilifi's wider financial position.</p>
 </div>
 <div class="kpis" id="kpis"></div>
 
@@ -86,8 +86,44 @@
   </div>
 </div>
 
+<!-- RELEASES AND SPENDING -->
+<div class="section section-white" id="spending">
+  <div class="section-hd">
+    <h2>Releases and Spending, FY 2025/26</h2>
+    <span class="meta">KSh million, ECDE and vocational training</span>
+  </div>
+  <div class="callout"><strong>No release or spending figure was found for any Kilifi education line.</strong> They should be in the Kilifi chapter of the Controller of Budget County Governments Budget Implementation Review Report FY 2025/26, but its download links did not work, so the report was not read. The allocations below come from the county budget documents. "—" means not found.</div>
+  <div class="tbl-wrap" style="margin-top:20px">
+    <table class="policy-table">
+      <thead><tr><th>Line</th><th class="n">Approved</th><th class="n">Released</th><th class="n">Spent</th><th>Sources</th></tr></thead>
+      <tbody id="spend-body"></tbody>
+    </table>
+  </div>
+  <p class="src">Vote 3141 covers both early childhood education and vocational training, so its total cannot be split between them. The KSh 10 million vocational training capitation is the county's share of a KSh 20 million yearly fund matched by KCB (Education News); the article does not say which financial year it starts in, so it is not shown as a 2025/26 line.</p>
+
+  <h3 class="panel-title">Stalled ECDE projects reported to the Controller of Budget</h3>
+  <div class="tbl-wrap">
+    <table class="policy-table">
+      <thead><tr><th>Project</th><th class="n">Estimated value</th><th class="n">Paid to date</th><th class="n">Balance</th><th>Sources</th></tr></thead>
+      <tbody id="stalled-body"></tbody>
+    </table>
+  </div>
+  <p class="src">As of 30 June 2026. Amounts paid are cumulative payments on each project, not spending in FY 2025/26. Kilifi reported nine stalled projects in this table; these three are the ECDE ones.</p>
+
+  <h3 class="panel-title">County-wide context</h3>
+  <div class="tbl-wrap">
+    <table class="policy-table">
+      <thead><tr><th>Item</th><th class="n">Approved</th><th class="n">Spent</th><th class="n">Spent ÷ approved</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Development budget, all departments, FY 2025/26</td><td class="n">7,400.0</td><td class="n">6,300.0</td><td class="n">84.5%</td><td class="srcs">Nation reports Sh6.3bn of Sh7.4bn (rounded); Business Daily gives the Controller of Budget rate of 84.52%. Not specific to education.</td></tr>
+        <tr><td>Education department, an earlier year</td><td class="n">762.4</td><td class="n">520.2</td><td class="n">68.2%</td><td class="srcs">Kilifi Annual Development Plan FY 2024/25 <a href="#src-10">[10]</a>. Reference only: the extract does not say which year it covers, so do not read it as 2025/26.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <!-- FINANCE -->
-<div class="section section-white" id="finance">
+<div class="section section-gold" id="finance">
   <div class="section-hd">
     <h2>Kilifi's Financial Position</h2>
     <span class="meta">KSh billion</span>
@@ -117,7 +153,7 @@
 </div>
 
 <!-- SOURCES -->
-<div class="section section-gold" id="sources">
+<div class="section section-white" id="sources">
   <div class="section-hd">
     <h2>Sources</h2>
     <span class="meta">County documents first, then news</span>
@@ -149,7 +185,7 @@ const SOURCES = {
      desc:'Proposed estimates, hosted on Scribd. Pages 3 and 6: devolution and civic education. Pages 4 and 9: early childhood education division, with recurrent, development, personal emoluments and operations and maintenance. Page 12: scholarships, feeding programme and capitation.'},
   2:{official:true,title:'Kilifi County Programme Based Budget FY 2025/26 (PDF)',
      url:'https://kilifiassembly.go.ke/images/KCPBB_FY_2025-2026.pdf',
-     desc:'Tabled 30 April 2025 (adopted at CEC level, so it may differ from the Assembly-approved budget). Vote 3141 (County Division for Early Childhood Education and Vocational Training): the vote summary figure of KSh 1,549.4 million (page not confirmed, seen in a search extract only); and Programme 2 Early Childhood Education, development estimates: ECDE capitation (p.43), teaching and learning materials and Tayari tablets (pages not verified).'},
+     desc:'Tabled 30 April 2025 (adopted at CEC level, so it may differ from the Assembly-approved budget). Vote 3141 (County Division for Early Childhood Education and Vocational Training): the vote summary figure of KSh 1,549.4 million (page not confirmed, seen in a search extract only); and Programme 2 Early Childhood Education, development estimates: ECDE capitation (p.43), teaching and learning materials, Tayari tablets and completion of stalled ECDE projects (pages not verified).'},
   3:{official:true,title:'Kilifi County Draft Budget Estimates FY 2025/26 (PDF)',
      url:'https://kilifi.go.ke/wp-content/uploads/2025/04/Draft-Budget.pdf',
      desc:'Vote 3140, Programme 3 Ward Scholarship Administration, item 2640101. Page not verified. When opened for this page the link returned the county home page, so the file may have moved.'},
@@ -161,7 +197,7 @@ const SOURCES = {
      desc:'Assembly web page listing budget documents. Source for the Education, Training and Research line (p.74, Sub-Programme 2.3; the document is not named in the workbook) and for ECDE teaching and learning materials (page not verified). The 2026/27 Programme Based Budget was not visible when this page was prepared.'},
   6:{official:true,title:'Controller of Budget, Consolidated County Budget Implementation Review Reports',
      url:'https://cob.go.ke/publications/consolidated-county-budget-implementation-review-reports/',
-     desc:'Page 289, "Kilifi County Stalled Projects as of 30 June 2026": proposed completion of the 2nd generation ECDE at Tezo.'},
+     desc:'Table 3.234, "Kilifi County Stalled Projects as of 30 June 2026", pp.322 to 323 as read from the PDF by a public code project (a secondary source; check the pages in the PDF). Rows 8 to 10 are the three ECDE projects, including the 2nd generation ECDE at Tezo. Page 289 is Kiambu\'s table, not Kilifi\'s.'},
   7:{title:'Jumuiya News, 22 September 2026: Kilifi\'s Sh10.7bn pending bills',
      url:'https://www.jumuiya.co.ke/kilifis-sh10-7bn-pending-bills-put-county-finances-under-senate-scrutiny/',
      desc:'Web article of about 20 paragraphs. ¶1 and ¶3: pending bills of KSh 10.7 billion, the second highest after Nairobi. ¶5: equitable share of KSh 12.8 billion plus own-source revenue of KSh 1.5 billion gives total revenue of KSh 14.3 billion in 2024/25.'},
@@ -170,7 +206,10 @@ const SOURCES = {
      desc:'Table 2.9, p.15 (Kilifi row): equitable share allocation of KSh 12,813.4 million and exchequer issues of KSh 8,520.9 million to 31 March 2026. The 75% benchmark is on p.1. The copy used was hosted by Mzalendo and the official download link was not tested; this link goes to the Controller of Budget publications page.'},
   9:{title:'The Standard: COB, 42 counties record development absorption rates below 75pc',
      url:'https://www.standardmedia.co.ke/',
-     desc:'News report on the Controller of Budget County Governments Budget Implementation Review Report FY 2025/26. Source for Kilifi\'s 84.52% development absorption. Page not given, and the report itself has not been checked. The link goes to the site home page because the article address was not recorded in the workbook.'}
+     desc:'News report on the Controller of Budget County Governments Budget Implementation Review Report FY 2025/26. Source for Kilifi\'s 84.52% development absorption. Page not given, and the report itself has not been checked. The link goes to the site home page because the article address was not recorded in the workbook.'},
+  10:{official:true,title:'Kilifi Annual Development Plan FY 2024/25 (PDF)',
+     url:'https://kilifi.go.ke',
+     desc:'Table of allocated amount, actual expenditure and absorption rate for the Education department (KSh 762,445,015; 520,215,083; 68.23%). Page and financial year not verified. The link goes to the county site because the exact PDF address was not recorded in the workbook.'}
 };
 const ref = (id,loc) => `<a href="${SOURCES[id].url}" target="_blank" rel="noopener" title="${esc(SOURCES[id].title)}">[${id}]</a>${loc?' '+esc(loc):''}`;
 const srcCell = (a,b) => `<td class="srcs"><b>2025/26:</b> ${a}<br><b>2026/27:</b> ${b}</td>`;
@@ -185,8 +224,8 @@ document.getElementById('src-notes').innerHTML = [
   '<strong>Old projections.</strong> The FY 2024/25 Programme Based Budget <a href="#src-4">[4]</a> projected ward scholarships of about KSh 550 million for 2025/26 and KSh 605 million for 2026/27. These are old plans, not approved figures, and were read from a text extract, so they are not used.',
   '<strong>Lines matched by name.</strong> "Ward scholarships and bursaries" (2025/26) is compared with "Scholarships" (2026/27), and "ECDE capitation" with "Capitation". They come from different documents and may not be defined the same way, so the changes are indicative. The 2025/26 capitation line is a development estimate <a href="#src-2">[2]</a>, while the 2026/27 line is recurrent <a href="#src-1">[1]</a>, so confirm they are the same item.',
   '<strong>Early childhood division.</strong> The 2025/26 total of KSh 1,549.4 million is the single figure in the vote summary for Vote 3141 <a href="#src-2">[2]</a>. It was seen in a search extract only and the PDF was not opened. The vote covers early childhood education and vocational training, so it may not match the scope of the 2026/27 division total of KSh 1,598.8 million, and the +3.2% is indicative. The Capitation and Scholarships lines in the 2026/27 estimates may or may not be counted inside the division.',
-  '<strong>Tezo ECDE project.</strong> The KSh 1.8 million appears in the Controller of Budget report as a stalled project at 30 June 2026 <a href="#src-6">[6]</a>, so it may not be new 2025/26 spending.',
-  '<strong>Releases and spending.</strong> No figures were found for what Kilifi actually released and spent on education in 2025/26. The county chapter of the Controller of Budget report was not opened, so the cash-flow figures above cover the whole county, not education.',
+  '<strong>Tezo ECDE project.</strong> The KSh 1.8 million appears in the Controller of Budget report as a stalled project at 30 June 2026 <a href="#src-6">[6]</a>, so it may not be new 2025/26 spending. The workbook\'s earlier citation of page 289 is Kiambu\'s table; Kilifi\'s is Table 3.234, pp.322 to 323 (to be checked in the PDF). Two other stalled ECDE projects (KSh 4.0 million and KSh 2.3 million, fully paid) are listed in the Releases and spending section.',
+  '<strong>Releases and spending.</strong> No figures were found for what Kilifi actually released and spent on education in 2025/26. The county chapter of the Controller of Budget report was not opened, so the cash-flow figures below cover the whole county, not education.',
   '<strong>Page numbers.</strong> Several PDF page numbers for the 2025/26 documents could not be verified. Where that is the case the table points to the vote and programme to look under instead.'
 ].map(t=>`<li>${t}</li>`).join('');
 
@@ -202,7 +241,7 @@ const ONEYEAR = [
   ['ECDE teaching and learning materials',29.40988,null,[ref(5,'page not verified'),NA]],
   ['Tayari tablets (ECDE digital learning)',10,null,[ref(2,'page not verified'),NA]],
   ['Education, Training and Research',6.2,null,[ref(5,'p.74, Sub-Programme 2.3'),NA]],
-  ['Completion of 2nd generation ECDE at Tezo',1.8,null,[ref(6,'p.289, stalled projects'),NA]],
+  ['Completion of 2nd generation ECDE at Tezo',1.8,null,[ref(6,'Table 3.234, pp.322-323'),NA]],
   ['Feeding programme',null,100,[NA,ref(1,'p.12')]]
 ];
 // 2026/27 estimates in full shillings: recurrent, development, personal emoluments, O&M, total
@@ -218,6 +257,22 @@ const FIN = [
   ['Own-source revenue collected, FY 2024/25',1.5,ref(7,'¶5')],
   ['Total revenue, FY 2024/25 (calculated; the article also states 14.3)',14.3,ref(7,'¶5')],
   ['Pending bills (reported September 2026)',10.7,ref(7,'¶1 and ¶3')]
+];
+// releases and spending: [line, approved, sources]; released and spent not found
+const SPEND = [
+  ['ECDE capitation',50,ref(2,'p.43')],
+  ['ECDE teaching and learning materials',29.40988,ref(5,'page not verified')],
+  ['Tayari tablets (ECDE digital learning)',10,ref(2,'page not verified')],
+  ['Completion of stalled ECDE projects',59.911972,ref(2,'development line, page not verified')],
+  ['Education, Training and Research',6.2,ref(5,'p.74, Sub-Programme 2.3')],
+  ['Whole Vote 3141 (ECDE and vocational training)',1549.407042,ref(2,'vote summary, page not confirmed')]
+];
+// stalled ECDE projects: [project, estimated value, paid]
+const STALL = [
+  ['Proposed completion of 2nd generation ECDE at Tezo',1.8,1.8],
+  ['Proposed renovation of Tangini kwa Kagumba ECDE and completion of toilets',4,4],
+  ['Construction of pit latrines at Zowerani VDC pre-school, Tezo ward',2.3,2.3],
+  ['Total, stalled ECDE projects',8.1,8.1]
 ];
 
 // ---------- BOTH YEARS TABLE ----------
@@ -272,6 +327,15 @@ document.getElementById('k26-body').innerHTML = EST.map(r=>
   document.getElementById('ece-sub').textContent = 'Share of the KSh '+fm(m(tot))+' million division total.';
   document.getElementById('ece-split').innerHTML = parts.map(p=>`<div style="width:${p.v/tot*100}%;background:${p.c}">${(p.v/tot*100).toFixed(1)}%</div>`).join('');
   document.getElementById('ece-key').innerHTML = parts.map(p=>`<div class="key-item"><i style="background:${p.c}"></i><div>${p.n}: KSh ${fm(m(p.v))} m<span>${p.d}</span></div></div>`).join('');
+})();
+
+// ---------- RELEASES AND SPENDING ----------
+(function(){
+  const D='<span class="flat">—</span>';
+  document.getElementById('spend-body').innerHTML = SPEND.map(r=>
+    `<tr><td>${esc(r[0])}</td><td class="n">${fm(r[1])}</td><td class="n">${D}</td><td class="n">${D}</td><td class="srcs">${r[2]}</td></tr>`).join('');
+  document.getElementById('stalled-body').innerHTML = STALL.map((r,i)=>
+    `<tr class="${i===STALL.length-1?'total':''}"><td>${esc(r[0])}</td><td class="n">${fm(r[1])}</td><td class="n">${fm(r[2])}</td><td class="n">${fm(r[1]-r[2])}</td><td class="srcs">${ref(6,'Table 3.234, pp.322 to 323 (check in the PDF)')}</td></tr>`).join('');
 })();
 
 // ---------- FINANCE ----------

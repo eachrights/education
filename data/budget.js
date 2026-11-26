@@ -53,12 +53,32 @@ window.EDU_NATIONAL = {
     { label: 'Primary: School Health, Nutrition and Meals', a: 4.9, b: 3.0, src: 'Budget Brief p. 6' },
     { label: 'Secondary: Special Needs Education', a: 0.28, b: 0.2716, src: 'Budget Brief p. 6' }
   ],
+  // TSC sub-programmes (Vote 2091), KSh billion converted from full KSh. Source: GI-ESCR submission citing the FY2026/27 PBB; not checked against the PBB
+  tscSub: [
+    { label: '0509010 Teacher Management: Primary', a: 225.935374337, b: 267.900304712, src: 'GI-ESCR submission (cites FY2026/27 PBB, Vote 2091); page not given',
+      note: '99.8% of the 2026/27 amount is compensation to employees. Includes the KPEEL capital line (KSh 0.423bn to 0.330bn).' },
+    { label: '0509020 Teacher Management: Secondary', a: 173.416294286, b: 138.442569792, src: 'GI-ESCR submission (cites FY2026/27 PBB, Vote 2091); page not given',
+      note: '99.7% of the 2026/27 amount is compensation. Includes the SEEQIP capital line (KSh 0.206bn to 0.350bn).' }
+  ],
+  tscSubNote: 'The two sub-programmes add to KSh 399.4bn in 2025/26, which is more than the KSh 387.2bn TSC total used above, so the bases probably differ (for example supplementary estimates or reclassification). The figures have not been checked against the Programme Based Budget.',
+  // Releases and spending FY2025/26, KSh billion. Released = nine months to 31 Mar 2026 (exchequer issues). Source: Controller of Budget nine-month report; spending from Mzalendo vote pages (not checked against the CoB annexes)
+  spending: [
+    { label: 'Teachers Service Commission', approved: 387.18, released: 296.63, spent: 300.41, src: 'CoB 9M report Table 2.10 p. 19; Tables 2.5 p. 9, 2.7 p. 12' },
+    { label: 'Basic Education', approved: 127.91, released: 90.72, spent: 94.54, src: 'CoB 9M report Table 2.10 p. 17; Tables 2.5 p. 8, 2.7 p. 12' },
+    { label: 'Higher Education', approved: 143.74, released: 78.66, spent: 128.36, src: 'CoB 9M report Table 2.10 p. 17; Tables 2.5 p. 8, 2.7 p. 12',
+      note: 'Spent exceeds released because institutions also spend funds they raise themselves.' },
+    { label: 'TVET', approved: 43.24, released: 19.03, spent: null, src: 'CoB 9M report Table 2.10 p. 18; Tables 2.5 p. 8, 2.7 p. 12', note: 'Spending not found.' },
+    { label: 'Science, Innovation and Research', approved: null, released: 0.53, spent: null, src: 'CoB 9M report Table 2.7 p. 12 (recurrent only)', note: 'No gross estimate or spending found.' }
+  ],
+  spendingNote: 'Released against gross estimates runs lower than against net estimates: the sector had received KSh 485.6bn of its KSh 624.7bn net estimate (77.7%) by 31 March 2026, against a 75% benchmark. Treasury reports whole-sector absorption falling from 97.6% (2023/24) to 90.9% to 79.6% (2025/26), and pending bills due to lack of exchequer rising from KSh 65.6bn to 70.1bn to 85.2bn (Education Sector Report, MTEF 2027/28 to 2029/30, Executive Summary p. 6). StatsKenya reports KSh 745.4bn spent in the full year against KSh 703.1bn approved; the bases differ, so these figures are not combined.',
   verify: [
     'Find the Treasury FY2025/26 Budget Statement to replace the Daily Nation committee proposals for Higher Education, Basic Education and TVET. The Controller of Budget gross estimates (143.7, 127.9 and 43.2) are within about 3% of them.',
     'Confirm which Free Primary Education figure to quote: KSh 7.0bn (headline capitation) or the KSh 17.9bn to 16.5bn programme in the Basic Education brief.',
     'Confirm the junior secondary capitation figure for 2025/26 (28.9 in the Budget Statement vs 30.7 in The Star).',
     'The education share of the budget is reported as 26.4% (The Star) and 26.5% (Capital FM). Quote it as "about 26.5%" until checked.',
-    'Treasury\u2019s "49% increase" compares with 2021/22. Year on year the rise is 11.6%.'
+    'Treasury\u2019s "49% increase" compares with 2021/22. Year on year the rise is 11.6%.',
+    'Check the TSC sub-programme figures against the FY2026/27 Programme Based Budget (Vote 2091), and read the Controller of Budget annexes for spending by vote instead of Mzalendo.',
+    'In the workbook, correct Education sub-programmes cell B8 (Higher Education 2025/26): it holds 56.3, but the Controller of Budget estimate is 143.7.'
   ]
 };
 
@@ -80,14 +100,23 @@ window.EDU_COUNTY = {
     // Lines with a figure in one year only: shown, but no change is calculated
     oneYear: [
       { fy: 'FY2025/26', label: 'ECDE teaching and learning materials', v: 29.41, conf: 'check', src: 'kilifiassembly.go.ke (page not verified)' },
+      { fy: 'FY2025/26', label: 'Completion of stalled ECDE projects (development line)', v: 59.91, conf: 'check', src: 'Kilifi Programme Based Budget FY2025/26 (seen in a search extract; page not verified)' },
       { fy: 'FY2025/26', label: 'Supply of Tayari tablets (ECDE digital learning)', v: 10, conf: 'check', src: 'Kilifi Programme Based Budget FY2025/26 (page not verified)' },
       { fy: 'FY2025/26', label: 'Education, Training and Research', v: 6.2, conf: 'check', src: 'kilifiassembly.go.ke, p. 74, Sub-Programme 2.3 (document not named in the workbook)' },
       { fy: 'FY2025/26', label: 'Completion of 2nd generation ECDE at Tezo', v: 1.8, conf: 'check',
         note: 'Listed as a stalled project at 30 June 2026, so it may not be new 2025/26 spending.',
-        src: 'Controller of Budget, consolidated county reports, p. 289' },
+        src: 'Controller of Budget, county review report FY2025/26, Table 3.234, pp. 322-323 (check in the PDF; p. 289 is Kiambu\u2019s table)' },
       { fy: 'FY2026/27', label: 'School feeding programme', v: 100, dev: 100, conf: 'check', note: 'No 2025/26 feeding line was found, so no change is calculated.',
         src: 'Kilifi FY2026/27 Budget Estimates (abridged), p. 12 (Scribd copy)', url: 'https://www.scribd.com/document/1035638775/Abridged-Version-of-Fy-202627-Budget-Estimates' }
     ],
+    // Stalled ECDE projects reported to the Controller of Budget, as of 30 June 2026 (KSh million). Amounts paid are cumulative, not FY2025/26 spending
+    stalled: [
+      { label: 'Proposed completion of 2nd generation ECDE at Tezo', value: 1.8, paid: 1.8 },
+      { label: 'Proposed renovation of Tangini kwa Kagumba ECDE and completion of toilets', value: 4, paid: 4 },
+      { label: 'Construction of pit latrines at Zowerani VDC pre-school, Tezo ward', value: 2.3, paid: 2.3 }
+    ],
+    stalledSrc: 'Controller of Budget, County Governments Budget Implementation Review Report FY2025/26, Table 3.234, pp. 322-323 as read by a public code project (secondary source; check in the PDF). Kilifi reported nine stalled projects; these three are the ECDE ones.',
+    spendNote: 'No released or actual-expenditure figure was found for any Kilifi ECDE or vocational training line. They should be in the Kilifi chapter of the Controller of Budget county report for FY2025/26, whose download links did not work. County-wide, Kilifi spent about KSh 6.3bn of a KSh 7.4bn development budget in 2025/26 (Nation; absorption 84.52% per Business Daily), which is not specific to education. For scale only: the Education department\u2019s earlier-year allocation and spending were KSh 762.4m and KSh 520.2m (68.2%) in the Kilifi Annual Development Plan FY2024/25, in a year the extract does not state, so do not read it as 2025/26.',
     context: 'Kilifi\u2019s wider finances are tight: total revenue was about KSh 14.3 billion in 2024/25 (equitable share 12.8bn plus own-source 1.5bn), and pending bills reached KSh 10.7 billion by September 2026 (Jumuiya News, 22 Sep 2026). By 31 March 2026 Kilifi had received 66.5% of its 2025/26 equitable share, below the 75% pro-rata benchmark (Controller of Budget nine-month report, Table 2.9, p. 15), and its development absorption for the year was 84.5% across all departments (The Standard, reporting the Controller of Budget county report). Neither figure is specific to education. These pressures may affect how fully allocations are paid out.',
     verify: [
       'No published education department total was found for 2025/26 or 2026/27. The lines above are individual lines, not the whole department.',
@@ -95,7 +124,8 @@ window.EDU_COUNTY = {
       'Confirm the 2025/26 division total (KSh 1,549.4m) covers the same scope as the 2026/27 division. The PDF was not opened.',
       'The FY2026/27 figures come from a Scribd copy of the abridged estimates. Confirm them against the Kilifi Assembly\u2019s approved Programme Based Budget.',
       'Page numbers for the 2025/26 ECDE materials and tablets lines are not verified.',
-      'No Kilifi education releases or spending figures were found. The Controller of Budget county report for 2025/26 should have them.'
+      'No Kilifi education releases or spending figures were found. The Controller of Budget county report for 2025/26 should have them.',
+      'Check the pages for the stalled ECDE projects (Table 3.234, pp. 322-323) in the Controller of Budget PDF; the workbook\u2019s earlier p. 289 is Kiambu\u2019s table.'
     ]
   }
 };
@@ -192,6 +222,18 @@ window.EDU_COUNTY = {
       }).join('')}</tbody></table></div>`;
   }
 
+  function spendTable(rows) {
+    return `<div style="overflow-x:auto;border-radius:8px;box-shadow:var(--shadow);background:var(--white);margin-top:12px;">
+      <table class="eb-table"><thead><tr><th>Vote</th><th class="num">Approved (gross)</th><th class="num">Released</th><th class="num">Released ÷ approved</th><th class="num">Spent</th><th>Source</th></tr></thead><tbody>
+      ${rows.map(r => {
+        const rr = r.approved ? r.released / r.approved * 100 : null;
+        return `<tr class="row"><td><div class="eb-line">${E(r.label)}</div>${r.note ? `<div class="eb-note">${E(r.note)}</div>` : ''}</td>
+          <td class="num">${num(r.approved, 2)}</td><td class="num">${num(r.released, 2)}</td>
+          <td class="num ${rr == null ? '' : rr < 75 ? 'down' : 'up'}">${rr == null ? '—' : rr.toFixed(1) + '%'}</td><td class="num">${num(r.spent, 2)}</td>
+          <td><div class="eb-src">${E(r.src)}</div></td></tr>`;
+      }).join('')}</tbody></table></div>`;
+  }
+
   // ---------- National block ----------
   const tot = N.total, totChg = tot.b - tot.a, totPct = chg(tot.a, tot.b);
   const tsc = N.voteHeads[0], tscShare = tsc.b / tot.b * 100;
@@ -215,6 +257,13 @@ window.EDU_COUNTY = {
       <p class="cap" style="margin-bottom:0">Programme totals from the Kenya Basic Education Sub-Sector Budget Brief FY2026-27 (pp. 6-7). Primary and administration fall; secondary rises. Lines of particular interest for inclusion and equity are listed after the totals.</p>
       ${natTable(N.basicBrief, false)}
       ${natTable(N.basicFocus, false)}
+      <div class="eb-sub">TSC sub-programmes (KSh billion)</div>
+      <p class="cap" style="margin-bottom:0">${E(N.tscSubNote)}</p>
+      ${natTable(N.tscSub, false)}
+      <div class="eb-sub">Releases and spending, FY2025/26 (KSh billion)</div>
+      <p class="cap" style="margin-bottom:0">Released = exchequer issues in the nine months to 31 March 2026. Release rates below 75% are in red. "—" means not found.</p>
+      ${spendTable(N.spending)}
+      <p class="cap" style="margin:12px 0 0">${E(N.spendingNote)}</p>
     </div>`;
 
   // ---------- County block ----------
@@ -233,6 +282,15 @@ window.EDU_COUNTY = {
         <td class="num">${r.fy === 'FY2025/26' ? num(r.v, 2) : '—'}</td><td class="num">${r.fy === 'FY2026/27' ? num(r.v, 2) : '—'}</td><td class="num">—</td><td>${pill(r.conf)}</td>
         <td><div class="eb-src">${E(r.src)}${link}</div></td></tr>`;
     }).join('');
+    const st = C.stalled || [];
+    const stTot = st.reduce((s, r) => ({ v: s.v + r.value, p: s.p + r.paid }), { v: 0, p: 0 });
+    const stalledHtml = st.length ? `
+        <div class="eb-sub">Releases and spending, and stalled ECDE projects</div>
+        <p class="cap" style="margin-bottom:0">${E(C.spendNote)}</p>
+        <div style="overflow-x:auto;border-radius:8px;box-shadow:var(--shadow);background:var(--white);margin-top:12px;"><table class="eb-table"><thead><tr><th>Stalled ECDE project (as of 30 June 2026)</th><th class="num">Estimated value</th><th class="num">Paid to date</th><th class="num">Balance</th></tr></thead><tbody>
+        ${st.map(r => `<tr class="row"><td><div class="eb-line">${E(r.label)}</div></td><td class="num">${num(r.value, 2)}</td><td class="num">${num(r.paid, 2)}</td><td class="num">${num(r.value - r.paid, 2)}</td></tr>`).join('')}
+        <tr class="grp"><td>Total</td><td class="num">${num(stTot.v, 2)}</td><td class="num">${num(stTot.p, 2)}</td><td class="num">${num(stTot.v - stTot.p, 2)}</td></tr></tbody></table></div>
+        <p class="cap" style="margin:10px 0 0">${E(C.stalledSrc)} Amounts paid are cumulative, not FY2025/26 spending.</p>` : '';
     cHtml = `
       <div class="eb-panel">
         <h3>${E(county)} County education lines</h3>
@@ -240,6 +298,7 @@ window.EDU_COUNTY = {
         <div style="overflow-x:auto;"><table class="eb-table"><thead><tr><th>Budget line</th><th class="num">FY2025/26</th><th class="num">FY2026/27</th><th class="num">% change</th><th>Status</th><th>Source</th></tr></thead>
         <tbody><tr class="grp"><td colspan="6">Lines with a figure in both years</td></tr>${cmp}
         <tr class="grp"><td colspan="6">Lines with a figure in one year only (no change calculated)</td></tr>${one}</tbody></table></div>
+        ${stalledHtml}
         <p class="cap" style="margin:14px 0 0">${E(C.context)}</p>
         <div class="eb-verify"><h4>To confirm before publishing (${E(county)})</h4><ul>${C.verify.map(v => `<li>${E(v)}</li>`).join('')}</ul></div>
       </div>`;

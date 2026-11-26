@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Panel — EACHRights SRHR Portal</title>
+<link rel="stylesheet" href="css/base.css">
+<style>
+.admin-layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 54px);}
+.admin-nav{background:var(--sidebar);padding:24px 0;}
+.admin-nav h3{color:rgba(255,255,255,.4);font-size:10px;letter-spacing:.15em;text-transform:uppercase;padding:0 20px;margin-bottom:8px;margin-top:16px;}
+.admin-nav h3:first-child{margin-top:0;}
+.admin-nav a{display:block;padding:9px 20px;color:rgba(255,255,255,.7);font-size:14px;text-decoration:none;border-left:3px solid transparent;transition:all .15s;}
+.admin-nav a:hover,.admin-nav a.active{background:rgba(255,255,255,.1);color:#fff;border-left-color:var(--lime);}
+.admin-content{padding:32px 40px;background:var(--paper);}
+.admin-section{display:none;}
+.admin-section.active{display:block;}
+.admin-card{background:var(--white);border-radius:8px;box-shadow:var(--shadow);padding:24px;margin-bottom:24px;}
+.admin-card h2{font-size:17px;font-weight:700;color:var(--green-dk);margin-bottom:4px;}
+.admin-card .sub{font-size:13px;color:var(--ink-lt);margin-bottom:20px;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.field-row.full{grid-template-columns:1fr;}
+.field{display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:12px;font-weight:700;color:var(--ink-mid);text-transform:uppercase;letter-spacing:.06em;}
+.field input,.field select,.field textarea{border:1px solid var(--rule);border-radius:4px;padding:9px 12px;font-size:14px;font-family:inherit;background:var(--white);color:var(--ink);}
+.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--green);border-color:var(--green);}
+.field textarea{resize:vertical;min-height:90px;}
+.btn-save{background:var(--green);color:#fff;border:none;padding:10px 24px;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;}
+.btn-save:hover{background:var(--green-dk);}
+.btn-danger{background:var(--red);color:#fff;border:none;padding:8px 16px;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--green);color:#fff;padding:12px 20px;border-radius:6px;font-size:14px;font-weight:600;box-shadow:0 4px 16px rgba(0,0,0,.2);z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;}
+.toast.show{opacity:1;}
+.login-wrap{max-width:380px;margin:80px auto;background:var(--white);border-radius:10px;box-shadow:var(--shadow);padding:36px;}
+.login-wrap h2{font-size:20px;font-weight:700;color:var(--green-dk);margin-bottom:4px;}
+.login-wrap p{font-size:13px;color:var(--ink-lt);margin-bottom:24px;}
+.gs-step{display:flex;gap:12px;margin-bottom:16px;align-items:flex-start;}
+.gs-step .num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--green);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.gs-step .step-body{font-size:14px;color:var(--ink-mid);line-height:1.7;}
+.gs-step .step-body strong{color:var(--ink);}
+.gs-step .step-body code{background:var(--paper);border:1px solid var(--rule);padding:1px 6px;border-radius:3px;font-size:12px;}
+.status-row{display:flex;align-items:center;gap:8px;font-size:14px;margin-bottom:8px;}
+.status-dot{width:10px;height:10px;border-radius:50%;background:var(--red);flex-shrink:0;}
+.status-dot.connected{background:var(--green);}
+.county-tab-bar{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;}
+.county-tab{padding:7px 16px;border-radius:4px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--rule);background:var(--white);color:var(--ink-mid);}
+.county-tab.active{background:var(--green);color:#fff;border-color:var(--green);}
+/* Policy viewer (read-only) */
+.policy-view-row{background:var(--paper);border-radius:6px;padding:14px 16px;margin-bottom:10px;border-left:4px solid var(--rule);display:flex;justify-content:space-between;align-items:center;gap:16px;}
+.policy-view-row .pname{font-size:14px;font-weight:600;color:var(--ink);flex:1;}
+.policy-view-row .pmeta{display:flex;gap:12px;align-items:center;flex-shrink:0;}
+.live-badge{background:var(--green-lt);color:var(--green);border:1px solid rgba(26,110,60,.2);font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;}
+/* Guide styles */
+.guide-section{margin-bottom:32px;}
+.guide-section h3{font-size:16px;font-weight:700;color:var(--green-dk);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--green-lt);}
+.guide-box{background:var(--paper);border-radius:6px;padding:16px;margin-bottom:12px;}
+.guide-box h4{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+.guide-note{background:var(--lime-lt);border-left:3px solid var(--lime);padding:10px 14px;border-radius:0 6px 6px 0;font-size:13px;color:var(--ink-mid);margin-bottom:12px;}
+.guide-warning{background:var(--red-lt);border-left:3px solid var(--red);padding:10px 14px;border-radius:0 6px 6px 0;font-size:13px;color:var(--ink-mid);margin-bottom:12px;}
+.col-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+.col-table th{background:var(--green);color:#fff;padding:8px 12px;text-align:left;font-size:12px;}
+.col-table td{padding:8px 12px;border-bottom:1px solid var(--rule);}
+.col-table tr:last-child td{border-bottom:none;}
+.col-table code{background:var(--paper);border:1px solid var(--rule);padding:1px 5px;border-radius:3px;font-size:11px;}
+.quick-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:20px;}
+.quick-action{flex:1;min-width:220px;display:flex;flex-direction:column;gap:6px;background:var(--white);border:1px solid var(--rule);border-radius:8px;padding:16px 18px;text-decoration:none;box-shadow:var(--shadow);transition:border-color .15s,transform .15s;}
+.quick-action:hover{border-color:var(--green);transform:translateY(-1px);text-decoration:none;}
+.quick-action .qa-icon{font-size:20px;}
+.quick-action .qa-title{font-size:14px;font-weight:700;color:var(--green-dk);}
+.quick-action .qa-sub{font-size:12px;color:var(--ink-lt);line-height:1.5;}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-brand" onclick="window.location='index.html'">
+    <div class="logo-dot">ER</div>
+    <span>EACHRights SRHR Portal</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html">← Back to Portal</a>
+    <a href="resources.html">Resources</a>
+  </div>
+  <div class="nav-right">Staff Dashboard</div>
+</nav>
+
+<div style="max-width:900px;margin:16px auto 0;padding:0 24px;">
+  <div class="guide-note">ℹ️ This page is a read-only monitor and staff guide — it shows the same publicly-visible data as the county pages, just organized for quick review. All real edits happen in the Google Sheet or the Updates Form, not here.</div>
+  <div class="quick-actions" id="quick-actions"></div>
+</div>
+
+<!-- STAFF DASHBOARD -->
+<div id="admin-panel">
+<div class="admin-layout">
+
+  <div class="admin-nav">
+    <h3>Monitor</h3>
+    <a href="#" class="active" onclick="showSection('policies','this')">📋 Policy Status</a>
+    <a href="#" onclick="showSection('updates','this')">📰 Recent Updates</a>
+    <h3>Connection</h3>
+    <a href="#" onclick="showSection('sheets','this')">📊 Google Sheets</a>
+    <a href="#" onclick="showSection('documents','this')">📎 Documents</a>
+    <h3>System</h3>
+    <a href="#" onclick="showSection('training','this')">🎓 Training Guides</a>
+    <a href="#" onclick="showSection('guide','this')">📖 How-To Guide</a>
+  </div>
+
+  <div class="admin-content">
+
+    <!-- POLICY STATUS — READ ONLY FROM SHEET -->
+    <div class="admin-section active" id="section-policies">
+      <div class="admin-card">
+        <h2>Policy Status — Live from Google Sheets</h2>
+        <div class="sub">This view reflects the current data in your Google Sheet. To update any policy, edit the Google Sheet directly — changes appear here on next page load.</div>
+        <div style="background:var(--green-lt);border:1px solid rgba(26,110,60,.2);border-radius:6px;padding:12px 16px;margin-bottom:20px;font-size:13px;display:flex;align-items:center;gap:10px;">
+          <span style="font-size:18px;">📊</span>
+          <span>Data source: <strong>Google Sheet (Policies tab)</strong> — <span id="sheet-last-loaded">loading...</span></span>
+          <button onclick="refreshSheetData()" style="margin-left:auto;background:var(--green);color:#fff;border:none;padding:5px 14px;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;">🔄 Refresh</button>
+        </div>
+        <div class="county-tab-bar" id="policy-county-tabs"></div>
+        <div id="policy-viewer"></div>
+      </div>
+    </div>
+
+    <!-- RECENT UPDATES — READ ONLY FROM SHEET -->
+    <div class="admin-section" id="section-updates">
+      <div class="admin-card">
+        <h2>Recent Updates — Live from Google Sheets</h2>
+        <div class="sub">Updates entered in the Google Sheet (Updates tab) appear here automatically. To add a new update, go to your Google Sheet and add a new row.</div>
+        <div style="background:var(--green-lt);border:1px solid rgba(26,110,60,.2);border-radius:6px;padding:12px 16px;margin-bottom:20px;font-size:13px;">
+          📊 To add an update: open your <strong>Google Sheet → Updates tab → add a new row</strong> → save → refresh this page.
+        </div>
+        <div id="updates-viewer"></div>
+      </div>
+    </div>
+
+    <!-- GOOGLE SHEETS -->
+    <div class="admin-section" id="section-sheets">
+      <div class="admin-card">
+        <h2>📊 Google Sheets Connection</h2>
+        <div class="sub">Your portal is connected to a live Google Sheet. Data flows automatically — no admin panel editing required.</div>
+        <div class="status-row">
+          <div class="status-dot connected" id="gs-status-dot"></div>
+          <span id="gs-status-text">Connected to Google Sheets</span>
+        </div>
+        <div style="margin-top:16px;padding:14px 16px;background:var(--paper);border-radius:6px;font-size:13px;color:var(--ink-mid);">
+          <div style="margin-bottom:6px;"><strong>Policies URL:</strong><br><span style="font-size:11px;word-break:break-all;" id="display-policies-url"></span></div>
+          <div><strong>Updates URL:</strong><br><span style="font-size:11px;word-break:break-all;" id="display-updates-url"></span></div>
+        </div>
+        <div style="margin-top:16px;">
+          <button class="btn-save" onclick="refreshSheetData()">🔄 Force Refresh from Sheet</button>
+          <div id="gs-test-result" style="font-size:13px;color:var(--ink-mid);margin-top:10px;"></div>
+        </div>
+      </div>
+      <div class="admin-card">
+        <h2>Google Sheet Column Reference</h2>
+        <div class="sub">Your sheet must have exactly these columns in this order.</div>
+        <strong style="font-size:13px;">Policies tab:</strong>
+        <table class="col-table">
+          <thead><tr><th>Column</th><th>Example value</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><code>county_id</code></td><td>homa-bay</td><td>Must match exactly: homa-bay, migori, kilifi, kwale</td></tr>
+            <tr><td><code>policy_id</code></td><td>hb-p01</td><td>Must match policy ID in counties.js</td></tr>
+            <tr><td><code>status</code></td><td>In Progress</td><td>Adopted / Enacted / In Progress / Draft / Stalled / Not Operational</td></tr>
+            <tr><td><code>impl_pct</code></td><td>45</td><td>Number 0–100, no % sign</td></tr>
+            <tr><td><code>gap</code></td><td>Delayed finalization</td><td>Short text description of the key gap</td></tr>
+            <tr><td><code>doc_url</code></td><td>https://drive.google.com/...</td><td>Optional — leave blank if no document</td></tr>
+          </tbody>
+        </table>
+        <strong style="font-size:13px;display:block;margin-top:16px;">Updates tab:</strong>
+        <table class="col-table">
+          <thead><tr><th>Column</th><th>Example value</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td><code>county_id</code></td><td>kilifi</td><td>Must match exactly</td></tr>
+            <tr><td><code>date</code></td><td>2026-06-27</td><td>Format: YYYY-MM-DD</td></tr>
+            <tr><td><code>title</code></td><td>Governor signs SGBV Policy</td><td>Short title</td></tr>
+            <tr><td><code>body</code></td><td>Policy was signed after...</td><td>Full description</td></tr>
+            <tr><td><code>source</code></td><td>CREAW Kilifi</td><td>Organization reporting</td></tr>
+            <tr><td><code>tags</code></td><td>policy;sgbv</td><td>Separate with semicolon ( ; )</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DOCUMENTS -->
+    <div class="admin-section" id="section-documents">
+      <div class="admin-card">
+        <h2>Attach Policy Documents</h2>
+        <div class="sub">To add a document download link to a policy, add the URL in the <code>doc_url</code> column of the Google Sheet Policies tab for that policy row. The download button appears automatically on the county page.</div>
+        <div class="guide-note">💡 <strong>Tip:</strong> Upload the PDF to Google Drive → right-click → Share → Anyone with link → Copy link → paste into the <code>doc_url</code> column in your Google Sheet.</div>
+        <div class="guide-note">💡 <strong>GitHub option:</strong> Place PDF in the <code>docs/</code> folder → push → use URL: <code>https://raw.githubusercontent.com/ThRiFt-BORG/srhr-dashboard/main/docs/filename.pdf</code></div>
+        <h3 style="font-size:15px;margin:16px 0 10px;">Currently linked documents</h3>
+        <div id="docs-viewer"></div>
+      </div>
+    </div>
+
+    <!-- HOW-TO GUIDE -->
+    <!-- TRAINING GUIDES -->
+    <div class="admin-section" id="section-training">
+      <div class="admin-card">
+        <h2>🎓 Training Guides</h2>
+        <div class="sub">The two written guides for the portal, held in Google Drive.</div>
+        <div class="guide-note">🔒 These open only for signed-in EACHRights accounts. If you are asked to request access, you are signed in to the wrong Google account.</div>
+        <div class="quick-actions" id="training-guides"></div>
+      </div>
+    </div>
+
+    <div class="admin-section" id="section-guide">
+      <div class="admin-card">
+        <h2>📖 Complete Guide — How to Update the Dashboard</h2>
+        <div class="sub">Step-by-step instructions for non-technical staff. No coding required.</div>
+
+        <div class="guide-note">
+          <strong>The single rule:</strong> Never edit code files. <strong>Policy status</strong> changes go through the Google Sheet (restricted to approved staff). <strong>Field updates/reports</strong> go through the public Updates Form — anyone on the team can submit one, no sheet access needed.
+        </div>
+
+        <!-- SECTION A -->
+        <div class="guide-section">
+          <h3>A. How to Update a Policy Status or Implementation %</h3>
+          <div class="gs-step"><div class="num">1</div><div class="step-body">Open the <strong>EACHRights SRHR Data Google Sheet</strong> (ask your supervisor for the link if you don't have it).</div></div>
+          <div class="gs-step"><div class="num">2</div><div class="step-body">Click the <strong>Policies</strong> tab at the bottom of the sheet.</div></div>
+          <div class="gs-step"><div class="num">3</div><div class="step-body">Find the row for your county and policy. Use <strong>Ctrl+F</strong> (or Cmd+F on Mac) to search by policy name or county.</div></div>
+          <div class="gs-step"><div class="num">4</div><div class="step-body">
+            Update the relevant cell(s):
+            <ul style="margin-top:6px;padding-left:16px;">
+              <li><strong>status</strong> column — change to one of: <code>Adopted</code>, <code>Enacted</code>, <code>In Progress</code>, <code>Draft</code>, <code>Stalled</code>, <code>Not Operational</code></li>
+              <li><strong>impl_pct</strong> column — enter a number from 0 to 100 (no % sign)</li>
+              <li><strong>gap</strong> column — update the key gap text</li>
+            </ul>
+          </div></div>
+          <div class="gs-step"><div class="num">5</div><div class="step-body">Google Sheets <strong>saves automatically</strong>. No need to click Save.</div></div>
+          <div class="gs-step"><div class="num">6</div><div class="step-body">Go to the portal and open the county page. <strong>Refresh the page (F5)</strong> — the updated data will appear within seconds.</div></div>
+          <div class="guide-warning">⚠️ <strong>Do not change</strong> the <code>county_id</code> or <code>policy_id</code> columns — these are used to match data and must stay exactly as they are.</div>
+        </div>
+
+        <!-- SECTION B -->
+        <div class="guide-section">
+          <h3>B. How to Add a Field Update / Report</h3>
+          <div class="gs-step"><div class="num">1</div><div class="step-body">Open <strong>Report a Field Update</strong> from the shortcuts at the top of this page. The county pages are read-only, so submissions start here.</div></div>
+          <div class="gs-step"><div class="num">2</div><div class="step-body">Fill in the form: County, Date of Event, Update Title, Description, Source/Organization, and optional Tags.</div></div>
+          <div class="gs-step"><div class="num">3</div><div class="step-body">Submit. The form writes directly into the Updates sheet — no manual sheet editing, no risk of typos in county names since it's a dropdown.</div></div>
+          <div class="gs-step"><div class="num">4</div><div class="step-body">Refresh the county page on the portal — your update appears in the Updates feed within seconds.</div></div>
+          <div class="guide-note">Why a form instead of direct sheet access? It keeps the sheet's edit access restricted to a small trusted group, while still letting any field staff submit updates safely.</div>
+        </div>
+
+        <!-- SECTION C -->
+        <div class="guide-section">
+          <h3>C. How to Attach a Policy Document</h3>
+          <div class="gs-step"><div class="num">1</div><div class="step-body">Upload your PDF to <strong>Google Drive</strong>. Right-click the file → <strong>Share</strong> → <strong>Anyone with the link can view</strong> → <strong>Copy link</strong>.</div></div>
+          <div class="gs-step"><div class="num">2</div><div class="step-body">Open the Google Sheet → <strong>Policies tab</strong> → find the row for that policy.</div></div>
+          <div class="gs-step"><div class="num">3</div><div class="step-body">Paste the Google Drive link into the <strong><code>doc_url</code></strong> column for that row.</div></div>
+          <div class="gs-step"><div class="num">4</div><div class="step-body">Refresh the county page — a <strong>⬇ Download</strong> button will appear next to that policy automatically.</div></div>
+        </div>
+
+        <!-- SECTION D -->
+        <div class="guide-section">
+          <h3>D. What Updates Immediately vs. What Requires Developer Help</h3>
+          <div class="guide-box">
+            <h4>✅ You can update yourself (via Google Sheet):</h4>
+            <ul style="font-size:13px;color:var(--ink-mid);padding-left:16px;line-height:2;">
+              <li>Policy status (e.g. change "In Progress" to "Adopted")</li>
+              <li>Implementation percentage (e.g. change 0% to 45%)</li>
+              <li>Key gap text</li>
+              <li>Document links</li>
+              <li>Field updates and reports (via the Updates Form — no sheet access needed)</li>
+            </ul>
+          </div>
+          <div class="guide-box">
+            <h4>🔧 Requires developer to update in <code>counties.js</code>:</h4>
+            <ul style="font-size:13px;color:var(--ink-mid);padding-left:16px;line-height:2;">
+              <li>Adding a brand new policy that doesn't exist yet</li>
+              <li>Changing county statistics (population, maternal mortality, budget figures)</li>
+              <li>Adding or removing advocacy priorities</li>
+              <li>Changing stakeholder lists</li>
+              <li>Adding a new county</li>
+            </ul>
+          </div>
+          <div class="guide-note">📧 For developer updates, send Dev the new data with clear instructions on what to change. He updates <code>counties.js</code>, commits to GitHub, and changes go live within minutes.</div>
+        </div>
+
+        <!-- SECTION E -->
+        <div class="guide-section">
+          <h3>E. Troubleshooting</h3>
+          <div class="guide-box">
+            <h4>My changes in the sheet are not showing on the portal</h4>
+            <div class="gs-step" style="margin-top:8px;"><div class="num">1</div><div class="step-body">Hard refresh the page: press <strong>Ctrl+Shift+R</strong> (Windows) or <strong>Cmd+Shift+R</strong> (Mac).</div></div>
+            <div class="gs-step"><div class="num">2</div><div class="step-body">Come to Admin Panel → Google Sheets → click <strong>Force Refresh from Sheet</strong>.</div></div>
+            <div class="gs-step"><div class="num">3</div><div class="step-body">Check that <code>county_id</code> and <code>policy_id</code> are spelled exactly correctly with no extra spaces.</div></div>
+          </div>
+          <div class="guide-box">
+            <h4>The status dot shows red / Not Connected</h4>
+            <div class="gs-step" style="margin-top:8px;"><div class="num">1</div><div class="step-body">Check your internet connection.</div></div>
+            <div class="gs-step"><div class="num">2</div><div class="step-body">Make sure the Google Sheet is still published: <strong>File → Share → Publish to web</strong> — it should say "This document is published to the web".</div></div>
+            <div class="gs-step"><div class="num">3</div><div class="step-body">Contact Peter if the problem persists.</div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script src="data/counties.js"></script>
+<script>
+// ── STAFF LINKS ────────────────────────────────────────────────────────────
+// These live here rather than in data/counties.js because that file is loaded
+// by every public page, which would hand these links to every visitor. This
+// page is not linked from anywhere public, so it is the right home for them.
+// If a form is ever rebuilt, this is the one place its link has to change.
+
+// The three staff-facing Google Forms.
+window.UPDATES_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc1QzUfbPAhX3j0ZWK7QJflkBdjcywsXPCtAtjLOljk0TFXeA/viewform";
+window.TRACKING_TOOL_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd6hzIDoZ5kKE86pLDAAEIc1qBDX-ulSs1JwjBfVnCY_-m6KA/viewform";
+window.MATERIALS_UPLOAD_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeZOmG-eeoaEFy-MOKKGVSGZKLoUSKLtN2nxUrDornOrxy0CA/viewform";
+
+// The two training guides, held in Google Drive with sharing restricted to
+// EACHRights accounts. Paste the two share links between the quotes.
+window.SYSTEM_DESCRIPTION_URL = "https://drive.google.com/file/d/1wRHAskdXCXgX8n4SrPiRfE_YuR3feEFF/view";
+window.TRAINING_MODULE_URL = "https://drive.google.com/file/d/1nZvaccsyKrA9wh9tNDpl6mPnEovZDUG0/view";
+
+// ── QUICK ACTIONS — links to the 3 staff-facing Google Forms ──
+document.getElementById('quick-actions').innerHTML = `
+  <a class="quick-action" href="${esc(window.UPDATES_FORM_URL)}" target="_blank" rel="noopener noreferrer">
+    <span class="qa-icon">📋</span>
+    <span class="qa-title">Report a Field Update</span>
+    <span class="qa-sub">Log an advocacy activity, meeting, or news item for a county.</span>
+  </a>
+  <a class="quick-action" href="${esc(window.TRACKING_TOOL_FORM_URL)}" target="_blank" rel="noopener noreferrer">
+    <span class="qa-icon">📊</span>
+    <span class="qa-title">Submit Quarterly Advocacy Tracking</span>
+    <span class="qa-sub">Record milestones, activities, decision-makers, and implementation status.</span>
+  </a>
+  <a class="quick-action" href="${esc(window.MATERIALS_UPLOAD_FORM_URL)}" target="_blank" rel="noopener noreferrer">
+    <span class="qa-icon">📎</span>
+    <span class="qa-title">Upload Advocacy Materials</span>
+    <span class="qa-sub">Submit a completed brief, flyer, or social media card for a tracked policy.</span>
+  </a>
+`;
+
+// ── TRAINING GUIDES ──
+// Links come from data/counties.js. Until the Drive links are filled in there,
+// the section says so plainly rather than rendering a dead link.
+(function renderTrainingGuides(){
+  const guides = [
+    { url: window.SYSTEM_DESCRIPTION_URL, icon: '📘', title: 'System Description',
+      sub: 'What the portal is, where each piece of information lives, and how it flows from a form to the dashboard.' },
+    { url: window.TRAINING_MODULE_URL, icon: '📗', title: 'Training Module',
+      sub: 'The hands-on guide: how to reach the portal, read it, add information and check that a change worked.' }
+  ];
+  const el = document.getElementById('training-guides');
+  const linked = guides.filter(g => window.safeUrl(g.url));
+  if (!linked.length) {
+    el.innerHTML = '<p style="font-size:13px;color:var(--ink-lt);">The guides have not been linked yet. Upload both to the EACHRights Drive, restrict sharing to the organisation, then paste the two share links into <code>data/counties.js</code>.</p>';
+    return;
+  }
+  el.innerHTML = linked.map(g => `
+    <a class="quick-action" href="${esc(window.safeUrl(g.url))}" target="_blank" rel="noopener noreferrer">
+      <span class="qa-icon">${g.icon}</span>
+      <span class="qa-title">${esc(g.title)}</span>
+      <span class="qa-sub">${esc(g.sub)}</span>
+    </a>`).join('');
+})();
+
+// ── NAV ──
+function showSection(id, el){
+  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.admin-nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById('section-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ── TOAST ──
+function toast(msg, type='success'){
+  const t = document.getElementById('toast');
+  t.textContent = (type==='success' ? '✅ ' : '⚠️ ') + msg;
+  t.style.background = type==='success' ? 'var(--green)' : 'var(--amber)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// ── INIT ──
+async function initAdmin(){
+  document.getElementById('display-policies-url').textContent = GS_DEFAULTS.policies;
+  document.getElementById('display-updates-url').textContent = GS_DEFAULTS.updates;
+
+  // Build county tabs
+  const tabs = document.getElementById('policy-county-tabs');
+  COUNTIES.forEach((c,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'county-tab' + (i===0?' active':'');
+    btn.textContent = c.name;
+    btn.onclick = ()=>{
+      document.querySelectorAll('.county-tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPolicyViewer(c.id);
+    };
+    tabs.appendChild(btn);
+  });
+
+  await window.SHEET_READY;
+  updateConnectionStatus();
+  renderPolicyViewer(COUNTIES[0].id);
+  renderUpdatesViewer();
+  renderDocsViewer();
+  document.getElementById('sheet-last-loaded').textContent = 'Last loaded: ' + new Date().toLocaleTimeString();
+}
+
+function updateConnectionStatus(){
+  const ok = window.SHEET_STATUS.policies === 'ok' && window.SHEET_STATUS.updates === 'ok';
+  document.getElementById('gs-status-dot').classList.toggle('connected', ok);
+  document.getElementById('gs-status-text').textContent = ok ? 'Connected ✓' : 'Connection issue — showing baseline data';
+}
+
+// ── POLICY VIEWER (real live-merged data — same function county.html uses) ──
+function renderPolicyViewer(countyId){
+  const C = window.getMergedCounty(countyId);
+  const overriddenIds = new Set((window.SHEET_DATA.policies[countyId] || []).map(p=>p.id));
+  const viewer = document.getElementById('policy-viewer');
+  viewer.innerHTML = '';
+  C.policies.forEach(p=>{
+    const isLive = overriddenIds.has(p.id);
+    const hasScore = typeof p.impl_pct === 'number';
+    const col = p.impl_pct>=60?'#32A037':p.impl_pct>=30?'#F2781C':'#E51C23';
+    const implHtml = hasScore
+      ? `<div class="impl-bar" style="width:60px;"><div class="impl-fill" style="width:${p.impl_pct}%;background:${col}"></div></div><span style="font-size:13px;font-weight:700;">${p.impl_pct}%</span>`
+      : `<span style="font-size:13px;color:var(--ink-lt);">not yet assessed</span>`;
+    viewer.innerHTML += `
+    <div class="policy-view-row" style="border-left-color:${isLive?'var(--green)':'var(--rule)'}">
+      <div class="pname">
+        ${esc(p.name)}
+        ${isLive ? '<span class="live-badge">LIVE FROM SHEET</span>' : ''}
+        <div style="font-size:12px;color:var(--ink-lt);margin-top:3px;">${esc(p.gap)}</div>
+      </div>
+      <div class="pmeta">
+        <span class="pill ${slugStatus(p.status)}">${esc(p.status)}</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          ${implHtml}
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+// ── UPDATES VIEWER (real live-merged data, sourced from the Updates Form sheet) ──
+function renderUpdatesViewer(){
+  const viewer = document.getElementById('updates-viewer');
+  let all = [];
+  COUNTIES.forEach(c=>{
+    const merged = window.getMergedCounty(c.id);
+    merged.updates.forEach(u => all.push({...u, countyName:c.name}));
+  });
+  all.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(!all.length){ viewer.innerHTML='<p style="color:var(--ink-lt);font-size:14px;">No updates found yet.</p>'; return; }
+  viewer.innerHTML = all.slice(0,20).map(u=>`
+  <div class="update-item">
+    <div class="update-date">${esc((u.date||'').slice(0,10))}<br><span style="font-size:10px;background:var(--green-lt);color:var(--green);padding:1px 5px;border-radius:3px;">${esc(u.countyName)}</span></div>
+    <div class="update-body">
+      <h4 style="font-size:14px;">${esc(u.title)}</h4>
+      <p style="font-size:13px;">${esc(u.body)}</p>
+      <div class="update-source">Source: ${esc(u.source)} &nbsp;${(u.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
+    </div>
+  </div>`).join('');
+}
+
+// ── DOCS VIEWER ──
+function renderDocsViewer(){
+  const viewer = document.getElementById('docs-viewer');
+  let rows = '';
+  COUNTIES.forEach(c=>{
+    const merged = window.getMergedCounty(c.id);
+    merged.policies.forEach(p=>{
+      const url = safeUrl(p.doc_url);
+      if(!url) return;
+      rows += `<div style="padding:10px 0;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;font-size:13px;">
+        <div><strong>${esc(c.name)}</strong> — ${esc(p.name)}</div>
+        <a href="${esc(url)}" target="_blank" rel="noopener noreferrer" class="doc-link">⬇ Download</a>
+      </div>`;
+    });
+  });
+  viewer.innerHTML = rows || '<p style="font-size:14px;color:var(--ink-lt);">No documents linked yet.</p>';
+}
+
+// ── REFRESH ──
+async function refreshSheetData(){
+  const result = document.getElementById('gs-test-result');
+  result.textContent = 'Refreshing from Google Sheets...';
+  window.SHEET_DATA = { policies: {}, updates: {}, advocacy: {} };
+  await window.loadGoogleSheetsData();
+  updateConnectionStatus();
+  const ok = window.SHEET_STATUS.policies === 'ok' && window.SHEET_STATUS.updates === 'ok';
+  if(ok){
+    result.innerHTML = '<span style="color:var(--green);">✅ Refreshed successfully — ' + new Date().toLocaleTimeString() + '</span>';
+    toast('Data refreshed from Google Sheets!');
+  } else {
+    result.innerHTML = '<span style="color:var(--red);">❌ Refresh failed — check internet connection</span>';
+    toast('Refresh failed — check internet connection', 'warning');
+  }
+  document.getElementById('sheet-last-loaded').textContent = 'Last loaded: ' + new Date().toLocaleTimeString();
+  const tabButtons = [...document.getElementById('policy-county-tabs').children];
+  const activeIdx = Math.max(0, tabButtons.findIndex(b=>b.classList.contains('active')));
+  renderPolicyViewer(COUNTIES[activeIdx].id);
+  renderUpdatesViewer();
+  renderDocsViewer();
+}
+
+initAdmin();
+</script>
+</body>
+</html>
